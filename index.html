@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course Access | MentorBox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #203354;
+            --secondary: #37517e;
+            --accent: #4e8098;
+            --accent-light: #6e9fb5;
+            --text: #ffffff;
+            --success: #66bb6a;
+            --warning: #f9ca24;
+            --danger: #e57373;
+            --card-bg: rgba(255, 255, 255, 0.15);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Layered background dengan SVG wave dan pola */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2337517e' fill-opacity='0.7' d='M0,64L48,80C96,96,192,128,288,133.3C384,139,480,117,576,96C672,75,768,53,864,69.3C960,85,1056,139,1152,149.3C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        .wave-2 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10vh;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%234e8098' fill-opacity='0.4' d='M0,192L60,176C120,160,240,128,360,133.3C480,139,600,181,720,197.3C840,213,960,203,1080,176C1200,149,1320,107,1380,85.3L1440,64L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        .dots {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 1%, transparent 3%),
+                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 1%, transparent 3%);
+            background-size: 80px 80px;
+            opacity: 0.5;
+        }
+        
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.2),
+                0 0 0 1px var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px;
+            width: 380px;
+            text-align: center;
+            animation: floatIn 1s ease-out;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+        
+        /* Glow effect */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 60%);
+            opacity: 0;
+            z-index: -1;
+            animation: pulse 15s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes floatIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            }
+        }
+        
+        /* Decoration lines */
+        .decoration {
+            position: absolute;
+            border-radius: 50px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            z-index: -1;
+        }
+        
+        .decoration-1 {
+            top: 20px;
+            left: -20px;
+            width: 150px;
+            height: 3px;
+            transform: rotate(-45deg);
+        }
+        
+        .decoration-2 {
+            bottom: 40px;
+            right: -20px;
+            width: 150px;
+            height: 3px;
+            transform: rotate(45deg);
+        }
+        
+        .logo {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(1);
+            transition: transform 0.3s ease, filter 0.3s ease;
+            position: relative;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent-light), transparent);
+            border-radius: 50px;
+        }
+        
+        .logo img {
+            max-width: 150px;
+            height: auto;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+        
+        h1 {
+            color: var(--text);
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+        }
+        
+        .intro-text {
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+            transition: transform 0.3s;
+        }
+        
+        .form-group:focus-within {
+            transform: scale(1.02);
+        }
+        
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s;
+        }
+        
+        .form-group:focus-within i {
+            color: var(--accent-light);
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            transition: opacity 0.3s;
+        }
+        
+        input:focus::placeholder {
+            opacity: 0.5;
+        }
+        
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(78, 128, 152, 0.3);
+        }
+        
+        button {
+            width: 100%;
+            background: linear-gradient(45deg, var(--accent), var(--accent-light));
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(36, 66, 115, 0.15);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px rgba(36, 66, 115, 0.25);
+        }
+        
+        button:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 5px 10px rgba(36, 66, 115, 0.2);
+        }
+        
+        #message {
+            color: var(--danger);
+            background-color: rgba(229, 115, 115, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+            animation: fadeInUp 0.5s;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0 5px;
+        }
+        
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            transition: transform 0.3s, color 0.3s;
+            padding: 10px;
+            width: 33%;
+            border-radius: 12px;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            color: var(--accent-light);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature i {
+            font-size: 22px;
+            margin-bottom: 8px;
+            color: var(--accent-light);
+            transition: transform 0.3s;
+        }
+        
+        .feature:hover i {
+            transform: scale(1.2);
+        }
+        
+        .footer {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .footer a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent-light);
+            transition: width 0.3s;
+        }
+        
+        .footer a:hover::after {
+            width: 100%;
+        }
+        
+        .footer a:hover {
+            color: var(--text);
+        }
+        
+        /* Floating elements animation */
+        .floating {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Tagline badge */
+        .tagline-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 50px;
+            padding: 5px 15px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+        
+        .tagline-badge:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+        
+        .tagline-badge i {
+            margin-right: 5px;
+            color: var(--accent-light);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                max-width: 350px;
+                padding: 30px 20px;
+            }
+            
+            .floating {
+                display: none; /* Hide floating elements on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="dots"></div>
+        <div class="wave"></div>
+        <div class="wave-2"></div>
+    </div>
+    
+    <!-- Floating elements -->
+    <div class="floating" style="width: 120px; height: 120px; top: 15%; left: 15%; animation: float 25s infinite ease-in-out;"></div>
+    <div class="floating" style="width: 80px; height: 80px; bottom: 30%; right: 10%; animation: float 20s infinite ease-in-out reverse;"></div>
+    <div class="floating" style="width: 50px; height: 50px; top: 60%; left: 5%; animation: float 15s infinite ease-in-out 2s;"></div>
+    
+    <div class="container">
+        <!-- Decorative elements -->
+        <div class="decoration decoration-1"></div>
+        <div class="decoration decoration-2"></div>
+        
+        <!-- MentorBox tagline badge -->
+        <div class="tagline-badge">
+            <i class="fas fa-star"></i>
+            <span>#ruangmeraihcita</span>
+        </div>
+        
+        <div class="logo">
+            <img src="https://raw.githubusercontent.com/ummulkhai/notion-course-access/main/1741066112.png" alt="MentorBox Logo" 
+                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0ZXh0IHg9IjEwIiB5PSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+TWVudG9yQm94PC90ZXh0Pjwvc3ZnPg==';">
+        </div>
+        
+        <h1>Akses Course</h1>
+        <p class="intro-text">Silakan masukkan password untuk melanjutkan ke materi pembelajaran Anda</p>
+        
+        <div class="form-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Masukkan password course" autocomplete="off" />
+        </div>
+        
+        <button id="access-btn" onclick="checkAccess()">
+            <i class="fas fa-arrow-right"></i> Akses Course
+        </button>
+        
+        <div id="message"></div>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-book"></i>
+                <span>Materi Lengkap</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-video"></i>
+                <span>Video Tutorial</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-certificate"></i>
+                <span>Sertifikat</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Powered by <a href="https://mentorbox.id" target="_blank">MentorBox</a></p>
+    </div>
+
+    <script>
+        // Create floating animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingElements = document.querySelectorAll('.floating');
+            
+            // Set random initial positions
+            floatingElements.forEach(element => {
+                const randomX = Math.random() * 10 - 5;
+                const randomY = Math.random() * 10 - 5;
+                
+                element.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            });
+        });
+        
+        // Animasi float
+        document.styleSheets[0].insertRule(`
+            @keyframes float {
+                0% { transform: translate(0, 0) rotate(0deg); }
+                25% { transform: translate(-10px, 10px) rotate(5deg); }
+                50% { transform: translate(10px, -15px) rotate(0deg); }
+                75% { transform: translate(-15px, -10px) rotate(-5deg); }
+                100% { transform: translate(0, 0) rotate(0deg); }
+            }
+        `, document.styleSheets[0].cssRules.length);
+        
+        // Data password dan URL course
+        const courses = {
+            "hduuw7yvL": "https://lofty-hiss-79b.notion.site/Digital-Marketing-1c95b708a3108060a044e65ee1c6af2d?pvs=4",
+            "POSJ5hdwk": "https://lofty-hiss-79b.notion.site/Content-Creator-1c95b708a3108069a4fbd58c0e6f767a?pvs=4"
+        };
+
+        function checkAccess() {
+            const password = document.getElementById("password").value;
+            const messageElement = document.getElementById("message");
+            const accessButton = document.getElementById("access-btn");
+            
+            if (password === "") {
+                messageElement.innerText = "Silakan masukkan password terlebih dahulu";
+                messageElement.style.display = "block";
+                return;
+            }
+            
+            // Tambahkan kelas untuk animasi
+            accessButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Memproses...';
+            accessButton.classList.add('processing');
+            
+            setTimeout(() => {
+                // Periksa apakah password benar
+                if (courses[password]) {
+                    messageElement.innerText = "Password benar! Mengalihkan ke course...";
+                    messageElement.style.color = "#66bb6a";
+                    messageElement.style.backgroundColor = "rgba(102, 187, 106, 0.1)";
+                    messageElement.style.display = "block";
+                    
+                    // Tambahkan efek konfeti untuk sukses
+                    createConfetti();
+                    
+                    setTimeout(() => {
+                        // Jika benar, arahkan ke URL course
+                        window.location.href = courses[password];
+                    }, 1500);
+                } else {
+                    // Jika salah, tampilkan pesan error
+                    messageElement.innerText = "Password salah. Silakan coba lagi.";
+                    messageElement.style.display = "block";
+                    accessButton.innerHTML = '<i class="fas fa-arrow-right"></i> Akses Course';
+                    accessButton.classList.remove('processing');
+                    
+                    // Efek getar untuk password salah
+                    document.querySelector('.form-group').classList.add('shake');
+                    setTimeout(() => {
+                        document.querySelector('.form-group').classList.remove('shake');
+                    }, 500);
+                }
+            }, 800);
+        }
+
+        // Dukungan tombol Enter
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkAccess();
+            }
+        });
+        
+        // Efek getar
+        document.styleSheets[0].insertRule(`
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `, document.styleSheets[0].cssRules.length);
+        
+        document.styleSheets[0].insertRule(`
+            .shake {
+                animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            }
+        `, document.styleSheets[0].cssRules.length);
+        
+        // Fungsi konfeti untuk efek sukses
+        function createConfetti() {
+            const confettiCount = 150;
+            const container = document.querySelector('body');
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random properties
+                const size = Math.random() * 8 + 5;
+                const color = ['#4e8098', '#6e9fb5', '#ffffff', '#66bb6a'][Math.floor(Math.random() * 4)];
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100 - 100;
+                const rotation = Math.random() * 360;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 0.5;
+                
+                // Styling
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.position = 'fixed';
+                confetti.style.left = `${posX}%`;
+                confetti.style.top = `${posY}px`;
+                confetti.style.transform = `rotate(${rotation}deg)`;
+                confetti.style.opacity = Math.random() + 0.5;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.zIndex = '1000';
+                
+                // Animation
+                confetti.style.animation = `confetti ${duration}s ease-in ${delay}s forwards`;
+                
+                container.appendChild(confetti);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, (duration + delay) * 1000);
+            }
+        }
+        
+        // Tambahkan keyframes untuk animasi konfeti
+        document.styleSheets[0].insertRule(`
+            @keyframes confetti {
+                0% { 
+                    transform: translateY(0) rotate(0deg); 
+                    opacity: 1;
+                }
+                100% { 
+                    transform: translateY(100vh) rotate(720deg); 
+                    opacity: 0;
+                }
+            }
+        `, document.styleSheets[0].cssRules.length);
+    </script>
+</body>
+</html>
